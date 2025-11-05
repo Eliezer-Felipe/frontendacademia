@@ -1,6 +1,6 @@
 // Configurações da aplicação
 const CONFIG = {
-    API_BASE_URL: 'backendacademia-production-6ae4.up.railway.app/api',
+    API_BASE_URL: 'backendacademia-production-6ae4.up.railway.app',
     
     // Endpoints da API
     ENDPOINTS: {
