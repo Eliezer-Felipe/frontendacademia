@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitGym - Sistema de Academia</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Tela de Login -->
+        <div id="loginScreen" class="screen active">
+            <div class="login-container">
+                <div class="logo">
+                    <i class="fas fa-dumbbell"></i>
+                    <h1>FitGym</h1>
+                </div>
+                
+                <div class="login-tabs">
+                    <button class="tab-btn active" onclick="showLoginForm()">Login</button>
+                    <button class="tab-btn" onclick="showRegisterForm()">Cadastrar</button>
+                </div>
+
+                <!-- Formulário de Login -->
+                <form id="loginForm" class="auth-form">
+                    <div class="form-group">
+                        <i class="fas fa-user"></i>
+                        <input type="email" id="loginEmail" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="loginPassword" placeholder="Senha" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Entrar</button>
+                </form>
+
+                <!-- Formulário de Cadastro -->
+                <form id="registerForm" class="auth-form hidden">
+                    <div class="form-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="registerName" placeholder="Nome completo" required>
+                    </div>
+                    <div class="form-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="registerEmail" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="registerPassword" placeholder="Senha" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Cadastrar</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Dashboard -->
+        <div id="dashboardScreen" class="screen">
+            <nav class="navbar">
+                <div class="nav-brand">
+                    <i class="fas fa-dumbbell"></i>
+                    <span>FitGym</span>
+                </div>
+                <div class="nav-user">
+                    <span id="userName">Usuário</span>
+                    <button onclick="logout()" class="btn-logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </nav>
+
+            <div class="dashboard-container">
+                <aside class="sidebar">
+                    <ul class="menu">
+                        <li><a href="#" onclick="showSection('alunos', this)" class="menu-item active">
+                            <i class="fas fa-users"></i> Alunos
+                        </a></li>
+                        <li><a href="#" onclick="showSection('professores', this)" class="menu-item">
+                            <i class="fas fa-chalkboard-teacher"></i> Professores
+                        </a></li>
+                        <li><a href="#" onclick="showSection('personal', this)" class="menu-item">
+                            <i class="fas fa-user-tie"></i> Personal Trainers
+                        </a></li>
+                    </ul>
+                </aside>
+
+                <main class="main-content">
+                    <!-- Seção Alunos -->
+                    <div id="alunosSection" class="section active">
+                        <div class="section-header">
+                            <h2><i class="fas fa-users"></i> Gerenciar Alunos</h2>
+                            <button onclick="openModal('alunoModal')" class="btn-add">
+                                <i class="fas fa-plus"></i> Adicionar Aluno
+                            </button>
+                        </div>
+                        <div class="table-container">
+                            <table id="alunosTable">
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Email</th>
+                                        <th>Telefone</th>
+                                        <th>Plano</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Seção Professores -->
+                    <div id="professoresSection" class="section">
+                        <div class="section-header">
+                            <h2><i class="fas fa-chalkboard-teacher"></i> Gerenciar Professores</h2>
+                            <button onclick="openModal('professorModal')" class="btn-add">
+                                <i class="fas fa-plus"></i> Adicionar Professor
+                            </button>
+                        </div>
+                        <div class="table-container">
+                            <table id="professoresTable">
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Email</th>
+                                        <th>Especialidade</th>
+                                        <th>Telefone</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Seção Personal Trainers -->
+                    <div id="personalSection" class="section">
+                        <div class="section-header">
+                            <h2><i class="fas fa-user-tie"></i> Gerenciar Personal Trainers</h2>
+                            <button onclick="openModal('personalModal')" class="btn-add">
+                                <i class="fas fa-plus"></i> Adicionar Personal
+                            </button>
+                        </div>
+                        <div class="table-container">
+                            <table id="personalTable">
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Email</th>
+                                        <th>Especialidade</th>
+                                        <th>Valor/Hora</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modais -->
+    <!-- Modal Aluno -->
+    <div id="alunoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="alunoModalTitle">Adicionar Aluno</h3>
+                <span class="close" onclick="closeModal('alunoModal')">&times;</span>
+            </div>
+            <form id="alunoForm">
+                <div class="form-group">
+                    <label>Nome:</label>
+                    <input type="text" id="alunoNome" required>
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" id="alunoEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Telefone:</label>
+                    <input type="tel" id="alunoTelefone" required>
+                </div>
+                <div class="form-group">
+                    <label>Plano:</label>
+                    <select id="alunoPlano" required>
+                        <option value="">Selecione um plano</option>
+                        <option value="Básico">Básico</option>
+                        <option value="Premium">Premium</option>
+                        <option value="VIP">VIP</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" onclick="closeModal('alunoModal')" class="btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Professor -->
+    <div id="professorModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="professorModalTitle">Adicionar Professor</h3>
+                <span class="close" onclick="closeModal('professorModal')">&times;</span>
+            </div>
+            <form id="professorForm">
+                <div class="form-group">
+                    <label>Nome:</label>
+                    <input type="text" id="professorNome" required>
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" id="professorEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Especialidade:</label>
+                    <input type="text" id="professorEspecialidade" required>
+                </div>
+                <div class="form-group">
+                    <label>Telefone:</label>
+                    <input type="tel" id="professorTelefone" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" onclick="closeModal('professorModal')" class="btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Personal Trainer -->
+    <div id="personalModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="personalModalTitle">Adicionar Personal Trainer</h3>
+                <span class="close" onclick="closeModal('personalModal')">&times;</span>
+            </div>
+            <form id="personalForm">
+                <div class="form-group">
+                    <label>Nome:</label>
+                    <input type="text" id="personalNome" required>
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" id="personalEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Especialidade:</label>
+                    <input type="text" id="personalEspecialidade" required>
+                </div>
+                <div class="form-group">
+                    <label>Valor por Hora (R$):</label>
+                    <input type="number" id="personalValorHora" step="0.01" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" onclick="closeModal('personalModal')" class="btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
